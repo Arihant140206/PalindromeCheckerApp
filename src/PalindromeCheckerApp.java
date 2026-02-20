@@ -1,30 +1,29 @@
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Scanner;
-import java.util.Stack;
 
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter string: ");
-        String input = sc.nextLine();
+        String input = sc.nextLine().toLowerCase().replaceAll("[^a-z0-9]", "");
 
-        // Data Structures
-        Queue<Character> queue = new LinkedList<>();
-        Stack<Character> stack = new Stack<>();
+        // Initialize Deque
+        Deque<Character> deque = new ArrayDeque<>();
 
-        // 1. Enqueue and Push characters
-        for (int i = 0; i < input.length(); i++) {
-            char c = input.charAt(i);
-            queue.add(c);  // Enqueue (FIFO)
-            stack.push(c); // Push (LIFO)
+        // 1. Insert characters into deque
+        for (char ch : input.toCharArray()) {
+            deque.addLast(ch);
         }
 
         boolean isPalindrome = true;
 
-        // 2. Compare Dequeue vs Pop
-        while (!queue.isEmpty()) {
-            if (!queue.remove().equals(stack.pop())) {
+        // 2. Remove first & last and Compare
+        while (deque.size() > 1) {
+            char first = deque.removeFirst();
+            char last = deque.removeLast();
+
+            if (first != last) {
                 isPalindrome = false;
                 break;
             }
@@ -36,5 +35,7 @@ public class PalindromeCheckerApp {
         } else {
             System.out.println("Result: It is NOT a Palindrome.");
         }
+
+        sc.close();
     }
 }
