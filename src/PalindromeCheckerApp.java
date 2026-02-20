@@ -1,35 +1,43 @@
-// UseCase3PalindromeCheckerApp.java
-
 import java.util.Scanner;
 
 public class PalindromeCheckerApp {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
 
-        // 1. Input the string
+        System.out.println("--- Palindrome Checker (Character Array Version) ---");
         System.out.print("Enter a string to check: ");
-        String original = sc.nextLine();
+        String input = scanner.nextLine();
 
-        // We normalize the string (remove spaces and lowercase) for a better check
-        String cleaned = original.replaceAll("\\s+", "").toLowerCase();
-        String reversed = "";
+        // Step 1: Convert string to char array
+        char[] charArray = input.toLowerCase().toCharArray();
 
-        // 2. Reverse string using a loop
-        // We start from the last index (length - 1) and move to 0
-        for (int i = cleaned.length() - 1; i >= 0; i--) {
-            reversed += cleaned.charAt(i); // String concatenation
-        }
+        // Step 2: Check if it's a palindrome using Two-Pointer Technique
+        boolean isPalindrome = checkPalindrome(charArray);
 
-        // 3. Compare original and reversed using .equals()
-        System.out.println("Original: " + cleaned);
-        System.out.println("Reversed: " + reversed);
-
-        if (cleaned.equals(reversed)) {
-            System.out.println("Result: The string is a palindrome.");
+        // Output result
+        if (isPalindrome) {
+            System.out.println("\"" + input + "\" is a palindrome.");
         } else {
-            System.out.println("Result: The string is NOT a palindrome.");
+            System.out.println("\"" + input + "\" is NOT a palindrome.");
         }
 
-        sc.close();
+        scanner.close();
+    }
+
+    public static boolean checkPalindrome(char[] arr) {
+        // Initialize two pointers
+        int start = 0;
+        int end = arr.length - 1;
+
+        while (start < end) {
+            // Compare characters at both ends
+            if (arr[start] != arr[end]) {
+                return false; // Not a palindrome
+            }
+            // Move pointers towards the center
+            start++;
+            end--;
+        }
+        return true; // If loop finishes, it is a palindrome
     }
 }
