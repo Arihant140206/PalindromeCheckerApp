@@ -1,43 +1,93 @@
 import java.util.Scanner;
 
-public class PalindromeCheckerApp {
+class PalindromeCheckerApp {
+
+    // Node class for Singly Linked List
+    static class Node {
+        char data;
+        Node next;
+
+        Node(char data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    // Function to check palindrome using linked list
+    public static boolean isPalindrome(String input) {
+
+        if (input == null || input.length() == 0) {
+            return true;
+        }
+
+        // Step 1: Convert string to linked list
+        Node head = new Node(input.charAt(0));
+        Node current = head;
+
+        for (int i = 1; i < input.length(); i++) {
+            current.next = new Node(input.charAt(i));
+            current = current.next;
+        }
+
+        // Step 2: Find middle using fast & slow pointers
+        Node slow = head;
+        Node fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Step 3: Reverse second half
+        Node secondHalf = reverse(slow);
+
+        // Step 4: Compare first half and reversed second half
+        Node firstHalf = head;
+        Node tempSecond = secondHalf;
+
+        while (tempSecond != null) {
+            if (firstHalf.data != tempSecond.data) {
+                return false;
+            }
+            firstHalf = firstHalf.next;
+            tempSecond = tempSecond.next;
+        }
+
+        return true;
+    }
+
+    // Function to reverse linked list
+    public static Node reverse(Node head) {
+        Node prev = null;
+        Node current = head;
+        Node nextNode;
+
+        while (current != null) {
+            nextNode = current.next;
+            current.next = prev;
+            prev = current;
+            current = nextNode;
+        }
+
+        return prev;
+    }
+
+
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("--- Palindrome Checker (Character Array Version) ---");
-        System.out.print("Enter a string to check: ");
+        System.out.println("Enter a string to check if it is a palindrome:");
         String input = scanner.nextLine();
 
-        // Step 1: Convert string to char array
-        char[] charArray = input.toLowerCase().toCharArray();
+        boolean result = isPalindrome(input);
 
-        // Step 2: Check if it's a palindrome using Two-Pointer Technique
-        boolean isPalindrome = checkPalindrome(charArray);
-
-        // Output result
-        if (isPalindrome) {
-            System.out.println("\"" + input + "\" is a palindrome.");
+        if (result) {
+            System.out.println("The given string is a Palindrome.");
         } else {
-            System.out.println("\"" + input + "\" is NOT a palindrome.");
+            System.out.println("The given string is NOT a Palindrome.");
         }
 
         scanner.close();
-    }
-
-    public static boolean checkPalindrome(char[] arr) {
-        // Initialize two pointers
-        int start = 0;
-        int end = arr.length - 1;
-
-        while (start < end) {
-            // Compare characters at both ends
-            if (arr[start] != arr[end]) {
-                return false; // Not a palindrome
-            }
-            // Move pointers towards the center
-            start++;
-            end--;
-        }
-        return true; // If loop finishes, it is a palindrome
     }
 }
