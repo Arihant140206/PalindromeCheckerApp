@@ -1,43 +1,36 @@
 import java.util.Scanner;
 
-public class PalindromeCheckerApp {
+class UseCase9PalindromeCheckerApp {
+
+    public static boolean isPalindrome(String str, int start, int end) {
+
+
+        if (start >= end) {
+            return true;
+        }
+
+        if (str.charAt(start) != str.charAt(end)) {
+            return false;
+        }
+
+        return isPalindrome(str, start + 1, end - 1);
+    }
+
     public static void main(String[] args) {
+
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("--- Palindrome Checker (Character Array Version) ---");
-        System.out.print("Enter a string to check: ");
+        System.out.println("Enter a string to check if it is a palindrome:");
         String input = scanner.nextLine();
 
-        // Step 1: Convert string to char array
-        char[] charArray = input.toLowerCase().toCharArray();
+        boolean result = isPalindrome(input, 0, input.length() - 1);
 
-        // Step 2: Check if it's a palindrome using Two-Pointer Technique
-        boolean isPalindrome = checkPalindrome(charArray);
-
-        // Output result
-        if (isPalindrome) {
-            System.out.println("\"" + input + "\" is a palindrome.");
+        if (result) {
+            System.out.println("The given string is a Palindrome.");
         } else {
-            System.out.println("\"" + input + "\" is NOT a palindrome.");
+            System.out.println("The given string is NOT a Palindrome.");
         }
 
         scanner.close();
-    }
-
-    public static boolean checkPalindrome(char[] arr) {
-        // Initialize two pointers
-        int start = 0;
-        int end = arr.length - 1;
-
-        while (start < end) {
-            // Compare characters at both ends
-            if (arr[start] != arr[end]) {
-                return false; // Not a palindrome
-            }
-            // Move pointers towards the center
-            start++;
-            end--;
-        }
-        return true; // If loop finishes, it is a palindrome
     }
 }
